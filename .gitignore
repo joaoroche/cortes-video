@@ -1,0 +1,11 @@
+node_modules/
+downloads/
+temp/
+*.log
+.DS_Store
+yt-dlp.exe
+ffmpeg-bin/
+ffmpeg.zip
+.env
+.env
+.env.*

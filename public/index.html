@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cortes de Vídeo - YouTube</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Cortes de Vídeo do YouTube</h1>
+      <p>Cole o link de um vídeo do YouTube e receba clipes de 1 minuto</p>
+    </header>
+
+    <main>
+      <!-- Seleção de tipo de processamento -->
+      <div class="processing-type-section">
+        <h3>Escolha o tipo de processamento:</h3>
+        <div class="type-options">
+          <label class="type-option selected" data-type="sequential">
+            <input type="radio" name="processingType" value="sequential" checked>
+            <div class="option-content">
+              <span class="option-icon">📹</span>
+              <span class="option-title">Cortes Sequenciais</span>
+              <span class="option-desc">Divide o vídeo em partes de 1 minuto (Parte 1, 2, 3...)</span>
+            </div>
+          </label>
+          <label class="type-option" data-type="intelligent">
+            <input type="radio" name="processingType" value="intelligent">
+            <div class="option-content">
+              <span class="option-icon">🧠</span>
+              <span class="option-title">Cortes Inteligentes</span>
+              <span class="option-desc">IA detecta os momentos mais virais do vídeo (60±15s)</span>
+            </div>
+          </label>
+          <label class="type-option" data-type="curiosity">
+            <input type="radio" name="processingType" value="curiosity">
+            <div class="option-content">
+              <span class="option-icon">💡</span>
+              <span class="option-title">Curiosidades Completas</span>
+              <span class="option-desc">Duração variável - captura histórias do início ao fim (20s-4min)</span>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Categorias para cortes inteligentes -->
+      <div id="categoriesSection" class="categories-section hidden">
+        <h4>Selecione as categorias de conteúdo:</h4>
+        <div class="categories-grid">
+          <label class="category-option">
+            <input type="checkbox" value="curiosidades" checked>
+            <span class="category-icon">🔍</span>
+            <span>Curiosidades Gerais</span>
+          </label>
+          <label class="category-option">
+            <input type="checkbox" value="historia" checked>
+            <span class="category-icon">📚</span>
+            <span>Fatos Históricos</span>
+          </label>
+          <label class="category-option">
+            <input type="checkbox" value="filmes" checked>
+            <span class="category-icon">🎬</span>
+            <span>Segredos de Filmes/Séries</span>
+          </label>
+          <label class="category-option">
+            <input type="checkbox" value="misterios" checked>
+            <span class="category-icon">👻</span>
+            <span>Mistérios Não Resolvidos</span>
+          </label>
+        </div>
+        <div class="clip-settings">
+          <label>
+            <span>Duração ideal dos clipes:</span>
+            <select id="clipDuration">
+              <option value="30">30 segundos</option>
+              <option value="45">45 segundos</option>
+              <option value="60" selected>60 segundos</option>
+              <option value="90">90 segundos</option>
+            </select>
+          </label>
+          <label>
+            <span>Máximo de clipes:</span>
+            <select id="maxClips">
+              <option value="5">5 clipes</option>
+              <option value="10" selected>10 clipes</option>
+              <option value="15">15 clipes</option>
+              <option value="20">20 clipes</option>
+            </select>
+          </label>
+        </div>
+      </div>
+
+      <!-- Configurações para modo curiosidades -->
+      <div id="curiositySection" class="curiosity-section hidden">
+        <h4>Configurações de Curiosidades Completas:</h4>
+        <div class="curiosity-settings">
+          <label>
+            <span>Duração mínima:</span>
+            <select id="minDuration">
+              <option value="10">10 segundos</option>
+              <option value="20" selected>20 segundos</option>
+              <option value="30">30 segundos</option>
+              <option value="45">45 segundos</option>
+            </select>
+          </label>
+          <label>
+            <span>Duração máxima:</span>
+            <select id="maxDuration">
+              <option value="120">2 minutos</option>
+              <option value="180">3 minutos</option>
+              <option value="240" selected>4 minutos</option>
+              <option value="300">5 minutos</option>
+            </select>
+          </label>
+          <label>
+            <span>Duração ideal:</span>
+            <select id="idealDuration">
+              <option value="60">60 segundos</option>
+              <option value="90" selected>90 segundos</option>
+              <option value="120">2 minutos</option>
+            </select>
+          </label>
+          <label>
+            <span>Prioridade:</span>
+            <select id="priority">
+              <option value="completeness">Completude (histórias completas)</option>
+              <option value="viral">Viralidade (momentos impactantes)</option>
+              <option value="balanced" selected>Balanceado</option>
+            </select>
+          </label>
+          <label>
+            <span>Máximo de curiosidades:</span>
+            <select id="maxBlocks">
+              <option value="5">5 curiosidades</option>
+              <option value="10" selected>10 curiosidades</option>
+              <option value="15">15 curiosidades</option>
+              <option value="20">20 curiosidades</option>
+            </select>
+          </label>
+        </div>
+        <p class="curiosity-note">* A IA identificará curiosidades completas com início, desenvolvimento e conclusão. A duração varia conforme necessário para contar a história toda.</p>
+      </div>
+
+      <!-- Estilo de Legenda -->
+      <div class="subtitle-style-section">
+        <h4>Estilo de Legenda:</h4>
+        <div class="subtitle-options">
+          <label class="subtitle-option">
+            <input type="radio" name="subtitleStyle" value="standard" checked>
+            <div class="option-content">
+              <span class="option-title">Padrão</span>
+              <span class="option-desc">Frase inteira aparece de uma vez</span>
+            </div>
+          </label>
+          <label class="subtitle-option">
+            <input type="radio" name="subtitleStyle" value="word_by_word">
+            <div class="option-content">
+              <span class="option-title">Palavra por Palavra</span>
+              <span class="option-desc">Cada palavra aparece no momento exato</span>
+            </div>
+          </label>
+          <label class="subtitle-option">
+            <input type="radio" name="subtitleStyle" value="karaoke">
+            <div class="option-content">
+              <span class="option-title">Karaoke</span>
+              <span class="option-desc">Palavra destacada progressivamente (estilo TikTok)</span>
+            </div>
+          </label>
+        </div>
+        <p class="subtitle-note">* Estilos "Palavra por Palavra" e "Karaoke" usam Whisper (mais preciso, custo adicional)</p>
+      </div>
+
+      <div class="input-section">
+        <input
+          type="text"
+          id="videoUrl"
+          placeholder="https://www.youtube.com/watch?v=..."
+          class="url-input"
+        >
+        <button id="processBtn" class="process-btn">Processar Vídeo</button>
+      </div>
+
+      <div id="statusSection" class="status-section hidden">
+        <div class="status-message">
+          <div class="loader"></div>
+          <p id="statusText">Processando vídeo...</p>
+        </div>
+      </div>
+
+      <div id="resultsSection" class="results-section hidden">
+        <h2>Clipes Disponíveis</h2>
+        <div id="clipsList" class="clips-list"></div>
+      </div>
+
+      <div id="errorSection" class="error-section hidden">
+        <p id="errorText"></p>
+      </div>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

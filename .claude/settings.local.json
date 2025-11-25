@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(yt-dlp:*)",
+      "Bash(winget install:*)",
+      "Bash(where:*)",
+      "Bash(dir $LOCALAPPDATAMicrosoftWinGetPackages 2)",
+      "Bash(nul)",
+      "Bash(curl:*)",
+      "Bash(./yt-dlp.exe:*)",
+      "Bash(unzip:*)",
+      "Bash(node -c:*)",
+      "Bash(mkdir:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
