@@ -743,3 +743,286 @@ main {
     grid-template-columns: 1fr;
   }
 }
+
+/* ========================================
+   ESTILOS DE EXPORTAÇÃO E UPLOAD MANUAL
+   ======================================== */
+
+/* Barra de ações globais */
+.global-actions-bar {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 30px;
+  padding: 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.action-btn {
+  padding: 14px 28px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.open-folder-btn {
+  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+}
+
+.open-folder-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.6);
+}
+
+.prepare-tiktok-btn {
+  background: linear-gradient(135deg, #fe2c55 0%, #000000 100%);
+  box-shadow: 0 4px 15px rgba(254, 44, 85, 0.4);
+}
+
+.prepare-tiktok-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(254, 44, 85, 0.6);
+}
+
+/* Notificações toast */
+.notification-toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 16px 24px;
+  border-radius: 10px;
+  color: white;
+  font-weight: 500;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  z-index: 10000;
+  animation: slideInRight 0.3s ease;
+  max-width: 400px;
+  transition: opacity 0.3s ease;
+}
+
+.notification-success {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+}
+
+.notification-error {
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+}
+
+.notification-warning {
+  background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+  color: #333;
+}
+
+.notification-info {
+  background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+}
+
+/* Modal de instruções */
+.instructions-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  backdrop-filter: blur(5px);
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.instructions-content {
+  background: white;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 700px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  animation: modalSlideUp 0.4s ease;
+}
+
+@keyframes modalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.instructions-content h2 {
+  background: linear-gradient(135deg, #fe2c55 0%, #000000 100%);
+  color: white;
+  padding: 24px 30px;
+  margin: 0;
+  border-radius: 15px 15px 0 0;
+  font-size: 1.6rem;
+}
+
+.instructions-close {
+  float: right;
+  font-size: 2.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+  line-height: 1;
+  margin-top: -5px;
+}
+
+.instructions-close:hover {
+  opacity: 1;
+}
+
+.instructions-body {
+  padding: 30px;
+}
+
+.instructions-intro {
+  font-size: 1.1rem;
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.instructions-intro code {
+  background: #f0f0f0;
+  padding: 3px 8px;
+  border-radius: 4px;
+  color: #e91e63;
+  font-family: 'Courier New', monospace;
+}
+
+.method {
+  margin-bottom: 30px;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 10px;
+  border-left: 4px solid #fe2c55;
+}
+
+.method h3 {
+  color: #333;
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+}
+
+.method ol {
+  margin-left: 20px;
+  line-height: 1.8;
+}
+
+.method ol li {
+  margin-bottom: 10px;
+}
+
+.method ul {
+  margin-left: 20px;
+  margin-top: 8px;
+}
+
+.method code {
+  background: #fff;
+  padding: 2px 6px;
+  border-radius: 3px;
+  color: #e91e63;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9em;
+}
+
+.method a {
+  color: #fe2c55;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.method a:hover {
+  text-decoration: underline;
+}
+
+.tips {
+  background: #fff3cd;
+  border: 2px solid #ffc107;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.tips h4 {
+  color: #856404;
+  margin-bottom: 12px;
+  font-size: 1.1rem;
+}
+
+.tips ul {
+  margin-left: 20px;
+  color: #856404;
+}
+
+.tips ul li {
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+
+.instructions-footer {
+  padding: 20px 30px;
+  background: #f8f9fa;
+  border-radius: 0 0 15px 15px;
+  text-align: center;
+}
+
+.instructions-footer .btn-primary {
+  padding: 14px 40px;
+  font-size: 1.1rem;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .global-actions-bar {
+    flex-direction: column;
+  }
+
+  .action-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .instructions-content {
+    width: 95%;
+    max-height: 95vh;
+  }
+
+  .instructions-body {
+    padding: 20px;
+  }
+
+  .method {
+    padding: 15px;
+  }
+
+  .notification-toast {
+    right: 10px;
+    left: 10px;
+    max-width: none;
+  }
+}

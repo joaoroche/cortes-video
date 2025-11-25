@@ -1,18 +1,32 @@
-# Cortes de Vídeo do YouTube
+# Cortes de Vídeo do YouTube 🎬
 
-Sistema completo para download e divisão de vídeos do YouTube em clipes de 1 minuto.
+Sistema completo para download, divisão e **preparação** de vídeos do YouTube em clipes otimizados para TikTok e redes sociais.
 
-## Funcionalidades
+## ✨ Funcionalidades
 
-- Interface web simples e intuitiva
-- Download de vídeos do YouTube
-- Divisão automática em clipes de 1 minuto com legendas embutidas
-- Transcrição automática com Whisper (OpenAI)
-- Geração de descrições inteligentes para cada clipe usando GPT-4
-- **Capas personalizadas com DALL-E 3** - geradas automaticamente com imagens relevantes ao conteúdo
-- Descrições otimizadas para TikTok com hashtags
-- Download individual de cada clipe e capa
-- Clipes retornados em ordem crescente
+### Processamento de Vídeo
+- 📹 **3 Modos de Processamento**:
+  - **Sequencial**: Divisão em clipes de 1 minuto (Parte 1, 2, 3...)
+  - **Inteligente**: IA detecta momentos virais (60±15s)
+  - **Curiosidades**: Histórias completas com duração variável (20s-4min)
+- 🎥 Interface web simples e intuitiva
+- ⬇️ Download de vídeos do YouTube
+- 📝 Legendas embutidas automáticas
+- 🎤 Transcrição com Whisper (OpenAI) ou legendas do YouTube (gratuito)
+- 🤖 Análise inteligente de conteúdo com GPT-4
+
+### Geração de Conteúdo
+- 🎨 **Capas personalizadas com DALL-E 3** - geradas automaticamente
+- 📱 Descrições otimizadas para TikTok com hashtags
+- 🎯 Títulos atrativos gerados por IA
+- 📊 Sistema de scoring de viralidade
+
+### **🆕 Preparação Automática para TikTok**
+- 📁 Organização automática de arquivos para upload
+- 📝 Geração de descrições otimizadas prontas para copiar
+- 🖼️ Capas correspondentes a cada vídeo
+- 📂 Abertura automática da pasta com clipes prontos
+- 📋 Arquivo de instruções de upload incluído
 
 ## Requisitos
 
@@ -92,7 +106,9 @@ AUDIO_QUALITY=64
 
 **Nota:** A geração de capas usa DALL-E 3, que tem um custo por imagem gerada. Se você quiser economizar, o sistema possui fallback automático para gradientes coloridos caso a geração com IA falhe.
 
-## Como Usar
+## 🚀 Como Usar
+
+### Processando Vídeos
 
 1. Inicie o servidor:
 ```bash
@@ -111,11 +127,32 @@ http://localhost:3000
 
 3. Cole o link de um vídeo do YouTube no campo de entrada
 
-4. Clique em "Processar Vídeo"
+4. Escolha o modo de processamento (Sequencial, Inteligente ou Curiosidades)
 
-5. Aguarde o processamento (pode levar alguns minutos dependendo do tamanho do vídeo)
+5. Clique em "Processar Vídeo"
 
-6. Após o processamento, você verá a lista de clipes disponíveis para download
+6. Aguarde o processamento (pode levar alguns minutos)
+
+7. Veja os clipes gerados e faça download
+
+### 🎵 Publicando no TikTok
+
+**Workflow simplificado para upload:**
+
+1. Processe um vídeo normalmente
+2. Clique em **"📂 Abrir Pasta de Clipes"** ou **"🎵 Preparar para TikTok"**
+3. Sistema organiza automaticamente:
+   - ✅ Vídeos com nomes amigáveis (`01_momento_viral.mp4`)
+   - ✅ Capas correspondentes (`01_momento_viral_capa.jpg`)
+   - ✅ Arquivo `DESCRICOES.txt` com todas as descrições prontas
+   - ✅ Arquivo `LEIA-ME.txt` com instruções completas de upload
+4. Pasta abre automaticamente com tudo organizado
+5. Transfira para celular (USB/Drive/AirDrop)
+6. Publique no TikTok (~30 segundos por vídeo)
+
+**Tempo total:** ~10 minutos para 10 vídeos 🚀
+
+**Documentação completa**: [MANUAL_UPLOAD_GUIDE.md](MANUAL_UPLOAD_GUIDE.md)
 
 ## Estrutura do Projeto
 

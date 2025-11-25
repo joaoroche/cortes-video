@@ -11,7 +11,9 @@
       "Bash(./yt-dlp.exe:*)",
       "Bash(unzip:*)",
       "Bash(node -c:*)",
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "Bash(dir /b /s src*tiktok*.js publictiktok.* *TIKTOK*.md QUICK_START*.md)",
+      "Bash(findstr:*)"
     ],
     "deny": [],
     "ask": []
