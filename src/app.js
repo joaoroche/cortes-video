@@ -16,6 +16,7 @@ function createApp() {
   // Rotas da API - Processamento de Vídeo
   app.post('/api/process-video', videoController.processVideo);
   app.get('/api/job/:jobId', videoController.getJobStatus);
+  app.get('/api/jobs/history', videoController.getJobsHistory);
 
   // Rotas de perfis de canais
   app.get('/api/channels', videoController.listChannels);

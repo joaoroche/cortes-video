@@ -78,6 +78,34 @@ function deleteJob(jobId) {
   delete jobs[jobId];
 }
 
+/**
+ * Lista todos os jobs
+ * @returns {Array} - Array de jobs com seus IDs
+ */
+function listJobs() {
+  return Object.entries(jobs).map(([jobId, job]) => ({
+    jobId,
+    ...job
+  }));
+}
+
+/**
+ * Lista jobs completados
+ * @param {number} limit - Limite de jobs a retornar
+ * @returns {Array}
+ */
+function listCompletedJobs(limit = 10) {
+  return Object.entries(jobs)
+    .filter(([_, job]) => job.status === 'completed')
+    .map(([jobId, job]) => ({
+      jobId,
+      status: job.status,
+      clipCount: job.clips ? job.clips.length : 0,
+      processingType: job.processingType
+    }))
+    .slice(0, limit);
+}
+
 module.exports = {
   createJob,
   getJob,
@@ -85,4 +113,6 @@ module.exports = {
   completeJob,
   failJob,
   deleteJob,
+  listJobs,
+  listCompletedJobs,
 };

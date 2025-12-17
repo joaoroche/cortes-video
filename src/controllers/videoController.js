@@ -774,10 +774,21 @@ function deleteChannelProfile(req, res) {
   res.json({ message: 'Perfil removido com sucesso' });
 }
 
+/**
+ * GET /api/jobs/history
+ * Lista jobs completados para histórico
+ */
+function getJobsHistory(req, res) {
+  const limit = parseInt(req.query.limit) || 10;
+  const jobs = jobService.listCompletedJobs(limit);
+  res.json({ jobs });
+}
+
 module.exports = {
   processVideo,
   getJobStatus,
   listChannels,
   getChannelProfile,
   deleteChannelProfile,
+  getJobsHistory,
 };

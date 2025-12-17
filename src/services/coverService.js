@@ -3,6 +3,7 @@ const path = require('path');
 const { createCanvas } = require('canvas');
 const config = require('../config');
 const { openai, processBatchParallel } = require('./transcriptionService');
+const schedulingService = require('./schedulingService');
 
 // Requer o hashCode em strings
 require('../utils/formatters');
@@ -373,7 +374,7 @@ async function generateCoversAndTikTokDescriptions(clips, jobId, jobDir) {
     const { clip, coverFileName, coverPath } = item;
 
     try {
-      const [coverResult, tiktokDescription] = await Promise.all([
+      const [coverResult, tiktokDescription, schedulingRecommendation] = await Promise.all([
         config.USE_DALLE_COVERS
           ? generateTikTokCover(clip.title, coverPath)
               .then(() => ({ success: true, url: `/downloads/${jobId}/${coverFileName}` }))
@@ -393,6 +394,15 @@ async function generateCoversAndTikTokDescriptions(clips, jobId, jobDir) {
             console.error(`[${jobId}] Erro descricao TikTok ${clip.number}:`, error.message);
             return `Parte ${clip.number} - ${clip.description}\n\n#fyp #explore`;
           }),
+
+        schedulingService.generateSchedulingRecommendation(
+          clip.description,
+          clip.transcription || clip.title
+        )
+          .catch(error => {
+            console.error(`[${jobId}] Erro recomendacao horario ${clip.number}:`, error.message);
+            return null;
+          }),
       ]);
 
       if (coverResult.success) {
@@ -401,6 +411,11 @@ async function generateCoversAndTikTokDescriptions(clips, jobId, jobDir) {
       }
       clip.tiktokDescription = tiktokDescription;
       console.log(`[${jobId}] Descricao TikTok gerada para clipe ${clip.number}`);
+
+      if (schedulingRecommendation) {
+        clip.schedulingRecommendation = schedulingRecommendation;
+        console.log(`[${jobId}] Recomendacao de horario gerada para clipe ${clip.number} (categoria: ${schedulingRecommendation.contentAnalysis.category})`);
+      }
 
       return { success: true, clipNumber: clip.number };
     } catch (error) {
