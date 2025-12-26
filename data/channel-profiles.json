@@ -1,0 +1,74 @@
+{
+  "UCnMrFH0xuvWQSHCscGFV9Gw": {
+    "channelId": "UCnMrFH0xuvWQSHCscGFV9Gw",
+    "channelName": "Embrulha Pra Viagem",
+    "videosAnalyzed": 2,
+    "patterns": {
+      "avgViralScore": 7.75,
+      "preferredCategories": [
+        "Curiosidades",
+        "curiosidades",
+        "mistérios",
+        "Mistérios"
+      ],
+      "typicalViralTimeRanges": [
+        {
+          "start": 49.41,
+          "end": 54.17
+        },
+        {
+          "start": 31.62,
+          "end": 44.79
+        },
+        {
+          "start": 140.02,
+          "end": 144.75
+        },
+        {
+          "start": 224.9,
+          "end": 232.07
+        },
+        {
+          "start": 190.08,
+          "end": 200.88
+        },
+        {
+          "start": 177.18,
+          "end": 180.87
+        },
+        {
+          "start": 52.58,
+          "end": 62.13
+        },
+        {
+          "start": 237.33,
+          "end": 242.85
+        },
+        {
+          "start": 79.71,
+          "end": 88.7
+        },
+        {
+          "start": 245.74,
+          "end": 253.9
+        },
+        {
+          "start": 47.4,
+          "end": 88.7
+        },
+        {
+          "start": 170.1,
+          "end": 202.75
+        },
+        {
+          "start": 73.73,
+          "end": 136.77
+        }
+      ],
+      "avgClipDuration": 57.699,
+      "contentStyle": "",
+      "bestPerformingTopics": []
+    },
+    "lastUpdated": "2025-12-17T17:29:53.794Z"
+  }
+}

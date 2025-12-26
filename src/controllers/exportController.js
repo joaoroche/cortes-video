@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { exec } = require('child_process');
 const { promisify } = require('util');
+const config = require('../config');
 
 const execAsync = promisify(exec);
 
@@ -16,7 +17,7 @@ const execAsync = promisify(exec);
 async function openOutputFolder(req, res) {
   try {
     const { jobId } = req.params;
-    const outputPath = path.join(process.cwd(), 'outputs', jobId);
+    const outputPath = path.join(config.DOWNLOADS_DIR, jobId);
 
     // Verificar se a pasta existe
     if (!fs.existsSync(outputPath)) {
@@ -64,7 +65,7 @@ async function openOutputFolder(req, res) {
 async function prepareForTikTok(req, res) {
   try {
     const { jobId } = req.params;
-    const jobPath = path.join(process.cwd(), 'outputs', jobId);
+    const jobPath = path.join(config.DOWNLOADS_DIR, jobId);
     const tiktokPath = path.join(jobPath, 'tiktok-ready');
 
     // Verificar se job existe
@@ -77,14 +78,33 @@ async function prepareForTikTok(req, res) {
       fs.mkdirSync(tiktokPath, { recursive: true });
     }
 
-    const clipsPath = path.join(jobPath, 'clips');
-    const coversPath = path.join(jobPath, 'covers');
     const metadataPath = path.join(jobPath, 'metadata.json');
 
-    // Ler metadata
+    // Ler metadata (se existir) ou buscar clipes diretamente
     let metadata = { clips: [] };
     if (fs.existsSync(metadataPath)) {
       metadata = JSON.parse(fs.readFileSync(metadataPath, 'utf-8'));
+    } else {
+      // Fallback: buscar clipes diretamente na pasta
+      const files = fs.readdirSync(jobPath);
+      const clipFiles = files
+        .filter(f => f.match(/^clip_\d+\.mp4$/))
+        .sort((a, b) => {
+          const numA = parseInt(a.match(/\d+/)[0]);
+          const numB = parseInt(b.match(/\d+/)[0]);
+          return numA - numB;
+        });
+
+      metadata.clips = clipFiles.map((filename, index) => {
+        const clipNumber = index + 1;
+        return {
+          number: clipNumber,
+          filename: filename,
+          title: `Clipe ${clipNumber}`,
+          description: '',
+          tiktokDescription: '',
+        };
+      });
     }
 
     // Preparar arquivos
@@ -96,7 +116,7 @@ async function prepareForTikTok(req, res) {
       const clipNumber = String(i + 1).padStart(2, '0');
 
       // Nome amigável baseado no título
-      const safeTitle = clip.title
+      const safeTitle = (clip.title || `Clipe ${i + 1}`)
         .replace(/[^a-zA-Z0-9\s]/g, '')
         .replace(/\s+/g, '_')
         .substring(0, 30);
@@ -104,8 +124,8 @@ async function prepareForTikTok(req, res) {
       const videoName = `${clipNumber}_${safeTitle}.mp4`;
       const coverName = `${clipNumber}_${safeTitle}_capa.jpg`;
 
-      // Copiar vídeo
-      const sourceVideo = path.join(clipsPath, clip.filename);
+      // Copiar vídeo (buscar na raiz do jobPath)
+      const sourceVideo = path.join(jobPath, clip.filename);
       const destVideo = path.join(tiktokPath, videoName);
 
       if (fs.existsSync(sourceVideo)) {
@@ -113,8 +133,9 @@ async function prepareForTikTok(req, res) {
         prepared.push({ type: 'video', name: videoName });
       }
 
-      // Copiar capa
-      const sourceCover = path.join(coversPath, clip.filename.replace('.mp4', '.jpg'));
+      // Copiar capa (buscar na raiz do jobPath com padrão clip_NNN_cover.png)
+      const clipNumberForCover = String(clip.number).padStart(3, '0');
+      const sourceCover = path.join(jobPath, `clip_${clipNumberForCover}_cover.png`);
       const destCover = path.join(tiktokPath, coverName);
 
       if (fs.existsSync(sourceCover)) {
@@ -126,8 +147,8 @@ async function prepareForTikTok(req, res) {
       descriptions.push({
         numero: i + 1,
         video: videoName,
-        titulo: clip.title,
-        descricao: clip.tiktokDescription || clip.description,
+        titulo: clip.title || `Clipe ${i + 1}`,
+        descricao: clip.tiktokDescription || clip.description || '',
       });
     }
 
@@ -232,7 +253,7 @@ async function getClipDescription(req, res) {
     const { jobId, clipIndex } = req.params;
     const index = parseInt(clipIndex);
 
-    const metadataPath = path.join(process.cwd(), 'outputs', jobId, 'metadata.json');
+    const metadataPath = path.join(config.DOWNLOADS_DIR, jobId, 'metadata.json');
 
     if (!fs.existsSync(metadataPath)) {
       return res.status(404).json({ error: 'Metadata não encontrada' });

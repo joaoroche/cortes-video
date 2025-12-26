@@ -371,7 +371,7 @@ function createSingleClip(videoPath, outputPath, startTime, clipDuration, subtit
     if (subtitleFormat === 'ass') {
       videoFilter = `ass='${normalizedClipSubPath}',fade=t=in:st=0:d=${fadeDuration},fade=t=out:st=${clipDuration - fadeDuration}:d=${fadeDuration}`;
     } else {
-      const subtitleStyle = 'FontName=Arial,FontSize=22,Bold=1,PrimaryColour=&H00FFFF00,OutlineColour=&H00000000,BorderStyle=1,Outline=3,Shadow=1,Alignment=2,MarginV=30';
+      const subtitleStyle = 'FontName=Arial,FontSize=18,Bold=1,PrimaryColour=&H00FFFF00,OutlineColour=&H00000000,BorderStyle=1,Outline=3,Shadow=1,Alignment=2,MarginV=30';
       videoFilter = `subtitles='${normalizedClipSubPath}':force_style='${subtitleStyle}',fade=t=in:st=0:d=${fadeDuration},fade=t=out:st=${clipDuration - fadeDuration}:d=${fadeDuration}`;
     }
 
@@ -471,7 +471,7 @@ function createClipSimple(videoPath, startTime, endTime, outputPath, subtitlePat
     if (subtitleFormat === 'ass') {
       videoFilter = `ass='${normalizedClipSubPath}',fade=t=in:st=0:d=${fadeDuration},fade=t=out:st=${clipDuration - fadeDuration}:d=${fadeDuration}`;
     } else {
-      const subtitleStyle = 'FontName=Arial,FontSize=22,Bold=1,PrimaryColour=&H00FFFF00,OutlineColour=&H00000000,BorderStyle=1,Outline=3,Shadow=1,Alignment=2,MarginV=30';
+      const subtitleStyle = 'FontName=Arial,FontSize=18,Bold=1,PrimaryColour=&H00FFFF00,OutlineColour=&H00000000,BorderStyle=1,Outline=3,Shadow=1,Alignment=2,MarginV=30';
       videoFilter = `subtitles='${normalizedClipSubPath}':force_style='${subtitleStyle}',fade=t=in:st=0:d=${fadeDuration},fade=t=out:st=${clipDuration - fadeDuration}:d=${fadeDuration}`;
     }
 

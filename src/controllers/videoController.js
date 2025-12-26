@@ -64,7 +64,8 @@ async function processVideo(req, res) {
   }
 
   const jobId = uuidv4();
-  jobService.createJob(jobId);
+  const job = jobService.createJob(jobId);
+  job.processingType = processingType;
 
   // Processar em background baseado no tipo
   if (processingType === 'intelligent') {

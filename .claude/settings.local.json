@@ -14,7 +14,12 @@
       "Bash(mkdir:*)",
       "Bash(dir /b /s src*tiktok*.js publictiktok.* *TIKTOK*.md QUICK_START*.md)",
       "Bash(findstr:*)",
-      "Bash(timeout 5 npm start)"
+      "Bash(timeout 5 npm start)",
+      "Bash(dir:*)",
+      "Bash(test:*)",
+      "Bash(cat:*)",
+      "Bash(ls:*)",
+      "Bash(npm test:*)"
     ],
     "deny": [],
     "ask": []

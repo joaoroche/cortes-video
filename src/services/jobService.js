@@ -49,12 +49,51 @@ function updateJob(jobId, updates) {
  * @param {Array} clips
  */
 function completeJob(jobId, clips) {
-  return updateJob(jobId, {
+  const job = updateJob(jobId, {
     status: 'completed',
     progress: 100,
     currentStep: 'Concluído',
     clips,
   });
+
+  // Salvar metadata.json no disco para persistência
+  try {
+    const fs = require('fs');
+    const path = require('path');
+    const config = require('../config');
+
+    const jobDir = path.join(config.DOWNLOADS_DIR, jobId);
+    const metadataPath = path.join(jobDir, 'metadata.json');
+
+    if (fs.existsSync(jobDir)) {
+      const metadata = {
+        jobId,
+        status: 'completed',
+        completedAt: new Date().toISOString(),
+        processingType: job.processingType || 'sequential',
+        clips: clips.map(clip => ({
+          number: clip.number,
+          filename: clip.name,
+          title: clip.title || `Clipe ${clip.number}`,
+          description: clip.description || '',
+          tiktokDescription: clip.tiktokDescription || '',
+          viralScore: clip.viralScore,
+          completenessScore: clip.completenessScore,
+          category: clip.category,
+          duration: clip.duration,
+          startTime: clip.start,
+          endTime: clip.end,
+        }))
+      };
+
+      fs.writeFileSync(metadataPath, JSON.stringify(metadata, null, 2), 'utf-8');
+      console.log(`[${jobId}] Metadata salvo em ${metadataPath}`);
+    }
+  } catch (error) {
+    console.error(`[${jobId}] Erro ao salvar metadata:`, error.message);
+  }
+
+  return job;
 }
 
 /**
