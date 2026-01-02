@@ -27,7 +27,13 @@ function createJob(jobId) {
  * @returns {Object|null}
  */
 function getJob(jobId) {
-  return jobs[jobId] || null;
+  // Primeiro tenta da memória
+  if (jobs[jobId]) {
+    return jobs[jobId];
+  }
+
+  // Se não estiver em memória, tenta carregar do disco
+  return loadJobFromDisk(jobId);
 }
 
 /**
@@ -129,20 +135,116 @@ function listJobs() {
 }
 
 /**
- * Lista jobs completados
+ * Carrega um job do disco (metadata.json)
+ * @param {string} jobId
+ * @returns {Object|null}
+ */
+function loadJobFromDisk(jobId) {
+  try {
+    const fs = require('fs');
+    const path = require('path');
+    const config = require('../config');
+
+    const jobDir = path.join(config.DOWNLOADS_DIR, jobId);
+    const metadataPath = path.join(jobDir, 'metadata.json');
+
+    if (!fs.existsSync(metadataPath)) {
+      return null;
+    }
+
+    const metadata = JSON.parse(fs.readFileSync(metadataPath, 'utf-8'));
+
+    // Converter metadata para formato de job
+    const job = {
+      status: metadata.status || 'completed',
+      progress: 100,
+      currentStep: 'Concluído',
+      processingType: metadata.processingType || 'sequential',
+      clips: metadata.clips.map(clip => ({
+        number: clip.number,
+        name: clip.filename,
+        url: `/downloads/${jobId}/${clip.filename}`,
+        start: clip.startTime,
+        end: clip.endTime,
+        duration: clip.duration,
+        title: clip.title,
+        description: clip.description,
+        tiktokDescription: clip.tiktokDescription,
+        viralScore: clip.viralScore,
+        completenessScore: clip.completenessScore,
+        category: clip.category,
+        keywords: []
+      })),
+      error: null
+    };
+
+    return job;
+  } catch (error) {
+    console.error(`[${jobId}] Erro ao carregar do disco:`, error.message);
+    return null;
+  }
+}
+
+/**
+ * Lista todos os jobs completados (memória + disco)
  * @param {number} limit - Limite de jobs a retornar
  * @returns {Array}
  */
 function listCompletedJobs(limit = 10) {
-  return Object.entries(jobs)
+  const fs = require('fs');
+  const path = require('path');
+  const config = require('../config');
+
+  // Jobs em memória
+  const memoryJobs = Object.entries(jobs)
     .filter(([_, job]) => job.status === 'completed')
     .map(([jobId, job]) => ({
       jobId,
       status: job.status,
       clipCount: job.clips ? job.clips.length : 0,
-      processingType: job.processingType
-    }))
+      processingType: job.processingType,
+      completedAt: new Date().toISOString() // Jobs em memória são recentes
+    }));
+
+  // Jobs do disco
+  const diskJobs = [];
+  try {
+    if (fs.existsSync(config.DOWNLOADS_DIR)) {
+      const dirs = fs.readdirSync(config.DOWNLOADS_DIR);
+
+      for (const dir of dirs) {
+        const metadataPath = path.join(config.DOWNLOADS_DIR, dir, 'metadata.json');
+
+        if (fs.existsSync(metadataPath)) {
+          try {
+            const metadata = JSON.parse(fs.readFileSync(metadataPath, 'utf-8'));
+
+            // Só adiciona se não estiver em memória
+            if (!jobs[dir]) {
+              diskJobs.push({
+                jobId: dir,
+                status: metadata.status || 'completed',
+                clipCount: metadata.clips ? metadata.clips.length : 0,
+                processingType: metadata.processingType || 'sequential',
+                completedAt: metadata.completedAt
+              });
+            }
+          } catch (error) {
+            console.error(`Erro ao ler metadata de ${dir}:`, error.message);
+          }
+        }
+      }
+    }
+  } catch (error) {
+    console.error('Erro ao listar jobs do disco:', error.message);
+  }
+
+  // Combinar e ordenar por data (mais recentes primeiro)
+  const allJobs = [...memoryJobs, ...diskJobs]
+    .sort((a, b) => new Date(b.completedAt) - new Date(a.completedAt))
     .slice(0, limit);
+
+  return allJobs;
 }
 
 module.exports = {
